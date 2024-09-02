@@ -9,10 +9,10 @@ paths:
     get:
       tags:
         - Competitions
-      summary: Get all competition
+      summary: Get all competitions
       responses:
         '200':
-          description: Returns a list of all competition
+          description: Returns a list of all competitions
           content:
             application/json:
               schema:
@@ -21,7 +21,7 @@ paths:
                   $ref: "#/components/schemas/competition"
     post:
       tags: 
-        - Competition
+        - Competitions
       summary: Create a new competition
       description: Allows to create a new competition
       requestBody:
@@ -32,7 +32,7 @@ paths:
               $ref: "#/components/schemas/competition"
       responses:
         '201':
-          description: Team created successfully
+          description: Competition created successfully
           content:
             application/json:
               schema:
@@ -42,14 +42,15 @@ paths:
                     $ref: "#/components/schemas/competition"
                 required:
                   - competition
+
   /teams:
     get:
       tags:
         - Teams
-      summary: Get all Teams
+      summary: Get all teams
       responses:
         '200':
-          description: Returns a list of all Team
+          description: Returns a list of all teams
           content:
             application/json:
               schema:
@@ -58,37 +59,73 @@ paths:
                   $ref: "#/components/schemas/team"
     post:
       tags: 
-        - Team
-      summary: Create a new Team
-      description: Allows to create a new competition
+        - Teams
+      summary: Create a new team
+      description: Allows to create a new team
       requestBody:
         required: true
         content:
           application/json:
             schema:
-             type: object
-             properties:
-              name: 
-                type: string
-                description: the name of the team
-              tagline: 
-                type: string
+              type: object
+              properties:
+                name: 
+                  type: string
+                  description: The name of the team
+                tagline: 
+                  type: string
+                  description: The team tagline
       responses:
         '201':
-          description: team created successfully
+          description: Team created successfully
           content:
             application/json:
               schema:
                 type: object
+                properties:
+                  team:
+                    $ref: "#/components/schemas/team"
                 required:
-                  $ref: "#/components/schemas/team"
-                  
-                  
-                  
-                  
-                  
-                  
-                  
+                  - team
+
+  /player:
+    get:
+      tags:
+        - Players
+      summary: Get all players
+      responses:
+        '200':
+          description: Returns a list of all players
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/player"
+    post:
+      tags: 
+        - Players
+      summary: Create a new player
+      description: Allows to create a new player
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/player"
+      responses:
+        '201':
+          description: Player created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  player:
+                    $ref: "#/components/schemas/player"
+                required:
+                  - player
+
 components:
   schemas:
     competition:
@@ -111,30 +148,33 @@ components:
           type: string
           description: The name of the player
         number:
+          type: integer
           description: The number of the player
-          type: number
-          format: int
+          format: int32
         footShooter: 
           type: string
-          description: The foot that shoot of the player
+          description: The foot that shoots of the player
+      required:
+        - name
+        - number
       
     team:
       type: object
       properties:
         name:
           type: string
-          description: the name of the team
+          description: The name of the team
         tagline:
           type: string
-          description: the team tagline
+          description: The team tagline
         participatedCompetition:
           type: array
           items:
-              $ref: "#/components/schemas/competition"
+            $ref: "#/components/schemas/competition"
         playerList:
           type: array
           items:
             $ref: "#/components/schemas/player"
-
-          
-
+      required:
+        - name
+        - tagline
