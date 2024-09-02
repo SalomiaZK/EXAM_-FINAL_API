@@ -1,0 +1,140 @@
+openapi: 3.0.3
+info:
+  title: STD23038
+  version: 1.0.0
+servers:
+  - url: "https://localhost.std23038.com"
+paths:
+  /competition:
+    get:
+      tags:
+        - Competitions
+      summary: Get all competition
+      responses:
+        '200':
+          description: Returns a list of all competition
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/competition"
+    post:
+      tags: 
+        - Competition
+      summary: Create a new competition
+      description: Allows to create a new competition
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/competition"
+      responses:
+        '201':
+          description: Team created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  competition:
+                    $ref: "#/components/schemas/competition"
+                required:
+                  - competition
+  /teams:
+    get:
+      tags:
+        - Teams
+      summary: Get all Teams
+      responses:
+        '200':
+          description: Returns a list of all Team
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/team"
+    post:
+      tags: 
+        - Team
+      summary: Create a new Team
+      description: Allows to create a new competition
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+             type: object
+             properties:
+              name: 
+                type: string
+                description: the name of the team
+              tagline: 
+                type: string
+      responses:
+        '201':
+          description: team created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  $ref: "#/components/schemas/team"
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+components:
+  schemas:
+    competition:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the competition
+        continent:
+          type: string
+          description: The country or the continent location
+      required:
+        - name
+        - continent
+        
+    player:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the player
+        number:
+          description: The number of the player
+          type: number
+          format: int
+        footShooter: 
+          type: string
+          description: The foot that shoot of the player
+      
+    team:
+      type: object
+      properties:
+        name:
+          type: string
+          description: the name of the team
+        tagline:
+          type: string
+          description: the team tagline
+        participatedCompetition:
+          type: array
+          items:
+              $ref: "#/components/schemas/competition"
+        playerList:
+          type: array
+          items:
+            $ref: "#/components/schemas/player"
+
+          
+
